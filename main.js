@@ -32,6 +32,7 @@ let gameState = {
 		pointsContainer: document.getElementById('points-container'),
 		add(val) {
 			this.value += val
+			localStorage.setItem('points', this.value)
 			this.pointsContainer.innerText = this.value
 			if (this.value >= 20) {
 				this.pointsContainer.style.color = 'black'
@@ -40,11 +41,22 @@ let gameState = {
 		remove(val) {
 			if (this.value >= val) {
 				this.value -= val
+				localStorage.setItem('points', this.value)
 			} 
 			if (this.value < 20){
 				this.pointsContainer.style.color = 'red'
 			}
 			this.pointsContainer.innerText = this.value
+		},
+		set(val) {
+			this.value = val
+			localStorage.setItem('points', this.value)
+			this.pointsContainer.innerText = this.value
+			if (this.value >= 20) {
+				this.pointsContainer.style.color = 'black'
+			} else {
+				this.pointsContainer.style.color = 'red'
+			}
 		},
 		value: 0
 	},
@@ -53,6 +65,12 @@ let gameState = {
 		y: 0,
 		x: 0
 	}
+}
+
+if (localStorage.getItem('points')) {
+	gameState.points.set(localStorage.getItem('points'))
+} else {
+	gameState.points.set(100)
 }
 
 window.addEventListener('deviceorientation', function(event) {
@@ -164,12 +182,21 @@ const animalLife = (animal, type) => {
 }
 
 // Set up game
-gameState.points.add(100)
 generatorButton.addEventListener('click', (e)=>{
 	generateRandomAnimal()
 	e.preventDefault()
 })
 
+document.getElementById('btn-reset').addEventListener('click', (e) => {
+	e.preventDefault()
+
+	while (localStorage.getItem('points') != null) {
+		localStorage.removeItem('points')
+	}
+
+	console.log(localStorage.getItem('points'))
+	location.reload()
+})
 
 
 

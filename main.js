@@ -48,13 +48,16 @@ let gameState = {
 		},
 		value: 0
 	},
-	startTime: Date.now()
+	startTime: Date.now(),
+	orientation: {
+		y: 0,
+		x: 0
+	}
 }
 
 window.addEventListener('deviceorientation', function(event) {
-	document.getElementById('a').innerText = event.alpha
-	document.getElementById('b').innerText = event.beta
-	document.getElementById('g').innerText = event.gamma
+	gameState.orientation.y = event.beta
+	gameState.orientation.x = event.gamma
 });
 
 // Animal lifecycle
@@ -83,13 +86,13 @@ const animalLife = (animal, type) => {
 	
 	const move = () => {
 		if (pos.x < animalFarm.offsetWidth - 30 && pos.x > 0) {
-			speed.x += (Math.random()-0.5) * maxSpeed
+			speed.x += ((Math.random()-0.5) * maxSpeed) + gameState.orientation.x*0.0001
 		} else {
 			speed.x *= -0.8
 		}
 
 		if (pos.y < animalFarm.offsetHeight - 40 && pos.y > 0) {
-			speed.y += (Math.random()-0.5) * maxSpeed
+			speed.y += ((Math.random()-0.5) * maxSpeed) + gameState.orientation.y*0.0001
 		} else {
 			speed.y *= -0.8
 		}
@@ -162,7 +165,10 @@ const animalLife = (animal, type) => {
 
 // Set up game
 gameState.points.add(100)
-generatorButton.addEventListener('click', generateRandomAnimal)
+generatorButton.addEventListener('click', (e)=>{
+	generateRandomAnimal()
+	e.preventDefault()
+})
 
 
 

@@ -73,10 +73,10 @@ if (localStorage.getItem('points')) {
 	gameState.points.set(100)
 }
 
-window.addEventListener('deviceorientation', function(event) {
-	gameState.orientation.y = event.beta
-	gameState.orientation.x = event.gamma
-});
+// window.addEventListener('deviceorientation', function(event) {
+// 	gameState.orientation.y = event.beta
+// 	gameState.orientation.x = event.gamma
+// });
 
 // Animal lifecycle
 const animalLife = (animal, type) => {

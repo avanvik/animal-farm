@@ -51,6 +51,12 @@ let gameState = {
 	startTime: Date.now()
 }
 
+window.addEventListener('deviceorientation', function(event) {
+	document.getElementById('a').innerText = event.alpha
+	document.getElementById('b').innerText = event.beta
+	document.getElementById('g').innerText = event.gamma
+});
+
 // Animal lifecycle
 const animalLife = (animal, type) => {
 	let animalState = 'alive'
@@ -157,8 +163,6 @@ const animalLife = (animal, type) => {
 // Set up game
 gameState.points.add(100)
 generatorButton.addEventListener('click', generateRandomAnimal)
-
-console.log(document)
 
 
 
